@@ -1,10 +1,298 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My First GitHub Website</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YourCo — Build, Launch, Grow</title>
+  <meta name="description" content="YourCo helps teams build, launch, and grow faster with delightful software." />
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#0f172a;
+      --muted:#94a3b8;
+      --text:#e6edf6;
+      --brand:#60a5fa;   /* light blue */
+      --brand-2:#34d399; /* mint */
+      --ring: rgba(96,165,250,.45);
+      --radius: 16px;
+      --shadow: 0 8px 30px rgba(2,6,23,.3);
+      --max: 1100px;
+    }
+    /* Reset-ish */
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--max);margin:0 auto;padding:0 20px}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.1rem;border-radius:999px;background:var(--brand);color:#0b1220;font-weight:700;box-shadow:var(--shadow)}
+    .btn.ghost{background:transparent;color:var(--text);border:1px solid #223055}
+    .badge{padding:.25rem .6rem;border-radius:999px;font-size:.75rem;letter-spacing:.3px;background:rgba(96,165,250,.15);color:var(--brand);border:1px solid rgba(96,165,250,.25)}
+    .grid{display:grid;gap:1.2rem}
+    .card{background:linear-gradient(180deg,#0f172a 0%, #0b1325 100%);border:1px solid #1e293b;border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow)}
+    .muted{color:var(--muted)}
+    .tag{font-size:.75rem;color:var(--muted)}
+
+    /* Nav */
+    .nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.75);backdrop-filter:blur(10px);border-bottom:1px solid #16223a}
+    .nav .row{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand{display:flex;align-items:center;gap:.6rem;font-weight:800}
+    .brand .logo{width:28px;height:28px;border-radius:8px;background:conic-gradient(from 90deg,var(--brand),var(--brand-2),#a78bfa,var(--brand));box-shadow:0 0 0 3px rgba(52,211,153,.15)}
+    .navlinks{display:flex;gap:1rem}
+    .navlinks a{padding:.5rem .7rem;border-radius:10px}
+    .navlinks a:hover{background:#0f1a33}
+
+    /* Hero */
+    .hero{position:relative;overflow:hidden}
+    .hero::before{
+      content:"";position:absolute;inset:-40% -10% auto -10%;
+      height:80vh;filter:blur(80px);opacity:.25;
+      background:radial-gradient(600px 300px at 40% 30%, var(--brand), transparent 70%),
+                 radial-gradient(500px 250px at 70% 30%, var(--brand-2), transparent 70%),
+                 radial-gradient(400px 200px at 50% 60%, #a78bfa, transparent 70%);
+      pointer-events:none;
+    }
+    .hero .wrap{padding:84px 0 40px}
+    h1{font-size:clamp(2rem,4.8vw,3.5rem);line-height:1.1;margin:.2rem 0 .6rem}
+    .lead{font-size:clamp(1rem,1.5vw,1.15rem);color:#c9d7ee;max-width:46ch}
+    .actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}
+
+    /* Sections */
+    section{padding:60px 0;border-top:1px solid #13213a}
+    section h2{font-size:clamp(1.4rem,3vw,2.1rem);margin:0 0 .2rem}
+    section p.section-lead{margin:.2rem 0 1.2rem;color:#c9d7ee}
+
+    /* Feature grid */
+    .features .grid{grid-template-columns:repeat( auto-fit, minmax(230px,1fr) )}
+    .features h3{margin:.2rem 0 .3rem}
+    .features .icon{width:34px;height:34px;border-radius:10px;background:#111f39;display:grid;place-items:center;border:1px solid #1e2f55}
+
+    /* Services */
+    .services .grid{grid-template-columns:repeat( auto-fit, minmax(260px,1fr) )}
+    .services .card{padding:1.4rem}
+
+    /* Pricing */
+    .pricing .grid{grid-template-columns:repeat( auto-fit, minmax(260px,1fr) )}
+    .price{font-size:2rem;font-weight:800}
+    .unit{font-size:.9rem;color:var(--muted);font-weight:600}
+
+    /* Testimonials */
+    .testimonials .grid{grid-template-columns:repeat( auto-fit, minmax(260px,1fr) )}
+    .quote{font-style:italic;color:#d7e3f9}
+
+    /* Contact */
+    form{display:grid;gap:.8rem;max-width:560px}
+    input,textarea{width:100%;padding:.9rem 1rem;border-radius:12px;border:1px solid #223055;background:#0c1730;color:var(--text);outline:none}
+    input:focus,textarea:focus{border-color:var(--brand);box-shadow:0 0 0 6px var(--ring)}
+    textarea{min-height:140px;resize:vertical}
+
+    /* Footer */
+    footer{padding:40px 0;color:var(--muted);border-top:1px solid #13213a}
+    .foot{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}
+
+    /* Mobile menu */
+    .hamburger{display:none}
+    @media (max-width: 760px){
+      .navlinks{display:none}
+      .hamburger{display:inline-flex;gap:.5rem;align-items:center}
+      .mobile{display:none;position:absolute;inset:64px 0 auto 0;background:rgba(11,18,32,.98);border-bottom:1px solid #16223a}
+      .mobile a{display:block;padding:14px 20px;border-top:1px solid #111a2e}
+      .mobile.open{display:block}
+    }
+  </style>
 </head>
 <body>
-    <h1>Hello, world!</h1>
-    <p>This is my first website hosted with GitHub Pages.</p>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="container row">
+      <div class="row">
+        <span class="brand"><span class="logo" aria-hidden="true"></span> YourCo</span>
+      </div>
+      <div class="navlinks">
+        <a href="#features">Features</a>
+        <a href="#services">Services</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+        <a class="btn" href="#contact">Get Started</a>
+      </div>
+      <button class="hamburger btn ghost" id="menuBtn" aria-label="Open menu">Menu ▾</button>
+    </div>
+    <div class="mobile" id="mobileMenu">
+      <a href="#features">Features</a>
+      <a href="#services">Services</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container wrap">
+      <span class="badge">NEW · v1.0 launches today</span>
+      <h1>Build. Launch. Grow.</h1>
+      <p class="lead">
+        YourCo is a tiny but mighty studio crafting products that feel fast,
+        friendly, and a little bit magical. Ship in days, not months.
+      </p>
+      <div class="actions">
+        <a class="btn" href="#pricing">Start Free</a>
+        <a class="btn ghost" href="#features">See Features</a>
+      </div>
+      <p class="tag">No credit card · Cancel anytime</p>
+    </div>
+  </header>
+
+  <!-- FEATURES -->
+  <section id="features" class="features">
+    <div class="container">
+      <h2>What you get</h2>
+      <p class="section-lead">Powerful defaults out of the box so you can focus on your customers.</p>
+      <div class="grid">
+        <article class="card">
+          <div class="icon">⚡</div>
+          <h3>Blazing speed</h3>
+          <p class="muted">Optimized assets, zero bloat, instant page loads.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🔒</div>
+          <h3>Secure by design</h3>
+          <p class="muted">Best practices baked in: HTTPS, headers, and audits.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🧩</div>
+          <h3>Modular</h3>
+          <p class="muted">Drop in sections, reorder layouts, iterate quickly.</p>
+        </article>
+        <article class="card">
+          <div class="icon">🌗</div>
+          <h3>Dark-first aesthetic</h3>
+          <p class="muted">Looks crisp on any device in any lighting.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="services">
+    <div class="container">
+      <h2>Services</h2>
+      <p class="section-lead">From idea to launch, we’ve got your back.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>Product Design</h3>
+          <p class="muted">Rapid wireframes, UI kits, and interactive prototypes.</p>
+        </div>
+        <div class="card">
+          <h3>Development</h3>
+          <p class="muted">Modern stacks, clean code, and continuous delivery.</p>
+        </div>
+        <div class="card">
+          <h3>Growth</h3>
+          <p class="muted">Landing pages, analytics, and smart experiments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="pricing">
+    <div class="container">
+      <h2>Simple pricing</h2>
+      <p class="section-lead">Start free. Upgrade when you’re ready.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>Starter</h3>
+          <p class="muted">For personal projects</p>
+          <p><span class="price">$0</span> <span class="unit">/mo</span></p>
+          <ul class="muted">
+            <li>1 project</li>
+            <li>Community support</li>
+            <li>Basic analytics</li>
+          </ul>
+          <a class="btn" href="#contact">Choose Starter</a>
+        </div>
+        <div class="card" style="border-color:#2b3f6c">
+          <h3>Pro</h3>
+          <p class="muted">For teams that ship</p>
+          <p><span class="price">$19</span> <span class="unit">/mo</span></p>
+          <ul class="muted">
+            <li>Unlimited projects</li>
+            <li>Email support</li>
+            <li>Advanced analytics</li>
+          </ul>
+          <a class="btn" href="#contact">Choose Pro</a>
+        </div>
+        <div class="card">
+          <h3>Enterprise</h3>
+          <p class="muted">Custom solutions</p>
+          <p><span class="price">Let’s talk</span></p>
+          <ul class="muted">
+            <li>SLAs & SSO</li>
+            <li>Dedicated engineer</li>
+            <li>Custom integrations</li>
+          </ul>
+          <a class="btn ghost" href="#contact">Contact sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="container">
+      <h2>What customers say</h2>
+      <div class="grid">
+        <div class="card">
+          <p class="quote">“We shipped our MVP in a weekend. Unreal.”</p>
+          <p class="muted">— Jamie L., Founder</p>
+        </div>
+        <div class="card">
+          <p class="quote">“Beautiful by default. My kind of stack.”</p>
+          <p class="muted">— Priya S., Designer</p>
+        </div>
+        <div class="card">
+          <p class="quote">“Fast, friendly, and reliable. 10/10.”</p>
+          <p class="muted">— Marco T., PM</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <h2>Let’s work together</h2>
+      <p class="section-lead">Tell us a bit about your project and we’ll get back within a day.</p>
+      <form action="https://formspree.io/f/your-id" method="POST">
+        <input name="name" placeholder="Your name" required />
+        <input name="email" type="email" placeholder="Email address" required />
+        <textarea name="message" placeholder="What are you building?" required></textarea>
+        <button class="btn" type="submit">Send message</button>
+        <p class="tag">Tip: replace the form action with your own service or
+          use <a href="mailto:hello@yourco.com">mailto:hello@yourco.com</a>.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container foot">
+      <p>© <span id="year"></span> YourCo • All rights reserved</p>
+      <p>
+        <a href="#">Privacy</a> · <a href="#">Terms</a> ·
+        <a href="https://github.com/yourname" target="_blank" rel="noreferrer">GitHub</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // mobile menu + current year
+    const btn = document.getElementById('menuBtn');
+    const menu = document.getElementById('mobileMenu');
+    btn?.addEventListener('click', () => menu.classList.toggle('open'));
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // close menu on link tap
+    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
+  </script>
 </body>
 </html>
